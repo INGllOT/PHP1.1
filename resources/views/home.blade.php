@@ -15,8 +15,33 @@
             @csrf
             <button> logout </button>
         </form>
-    @else
 
+        <div style="border: 3px solid black;">
+            <h2>Create event</h2>
+            <form action="/create-event" method="POST">
+                @csrf
+                <input name = "title" type='text' placeholder="event title">
+                <textarea name = "body" type='text' placeholder="body text"> </textarea>
+                <button>Save event</button>
+            </form>
+        </div>
+
+        <div style="border: 3px solid black;">
+            <h2>All events</h2>
+            @foreach ($events as $event)
+                <div style="background-color: gray; padding: 10px; margin: 10px">
+                    <h3> {{ $event['title'] }} </h3>
+                    {{ $event['body'] }}
+                    <p><a href="/edit-event/{{ $event->id }}">Edit</a></p>
+                    <form action="/delete-event/{{ $event->id }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button>Delete</button>
+                    </form>
+                </div>
+            @endforeach
+        </div>
+    @else
         <div style="border: 3px solid black;">
             <h2>REGISTER</h2>
             <form action="/register" method="POST">
@@ -27,7 +52,7 @@
                 <button>Register</button>
             </form>
         </div>
-        
+
         <div style="border: 3px solid black;">
             <h2>Login</h2>
             <form action="/login" method="POST">
@@ -37,7 +62,7 @@
                 <button>Log in</button>
             </form>
         </div>
-       
+
     @endauth
 
 

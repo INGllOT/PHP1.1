@@ -40,7 +40,7 @@ class UserController extends Controller
         $user = User::create($incomingFields);
         auth()->login($user);
 
-        return "redirect('asdsadsad/');";
+        return redirect('/');
     }
 
    
