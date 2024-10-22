@@ -6,7 +6,7 @@ use App\Models\Event;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    $events = Event::all();
+    $events = Event::orderBy('start_date', 'asc')->get();
     return view('home', ['events' => $events]);
 });
 

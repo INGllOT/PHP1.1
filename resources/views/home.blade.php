@@ -22,6 +22,8 @@
                 @csrf
                 <input name = "title" type='text' placeholder="event title">
                 <textarea name = "body" type='text' placeholder="body text"> </textarea>
+                <input name="start_date" type="date" placeholder="Start Date">
+                <input name="end_date" type="date" placeholder="End Date">
                 <button>Save event</button>
             </form>
         </div>
@@ -61,6 +63,17 @@
                 <input name = "loginpassword" type='password' placeholder="password">
                 <button>Log in</button>
             </form>
+        </div>
+
+        <div style="border: 3px solid black;">
+            <h2>All events</h2>
+            @foreach ($events as $event)
+                <div style="background-color: gray; padding: 10px; margin: 10px">
+                    <h3> {{ $event['title'] }} </h3>
+                    {{ $event['body'] }}
+                
+                </div>
+            @endforeach
         </div>
 
     @endauth
