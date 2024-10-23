@@ -20,7 +20,10 @@ Route::put('/change-password', [UserController::class, 'change_password']);
 
 
 Route::post('/create-event', [EventController::class, 'createEvent']);
+
 Route::get('/edit-event/{event}', [EventController::class, 'showEventController']);
+Route::get('/show-event/{event}', [EventController::class, 'showEvent']);
+
 Route::put('/edit-event/{event}', [EventController::class, 'updateEvent']);
 Route::delete('/delete-event/{event}', [EventController::class, 'deleteEvent']);
 

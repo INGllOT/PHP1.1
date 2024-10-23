@@ -36,6 +36,17 @@ class EventController extends Controller
         return view('edit-event', ['event' => $event]);
     }
 
+    public function showEvent(Event $event)
+    {
+
+       
+        // if (auth()->user()->id !== $event['user_id']) {
+        //     return redirect('/');
+        // }
+
+        return view('show-event', ['event' => $event]);
+    }
+
     public function updateEvent(Event $event, Request $request)
     {
         // if (auth()->user()->id !== $event['user_id']) {

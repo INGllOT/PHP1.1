@@ -65,11 +65,13 @@
 
                     {{ $event['body'] }}
                     <p><a href="/edit-event/{{ $event->id }}">Edit</a></p>
+                    <p><a href="/show-event/{{ $event->id }}">Show</a></p>
                     <form action="/delete-event/{{ $event->id }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button>Delete</button>
                     </form>
+
                 </div>
             @endforeach
         </div>
@@ -114,6 +116,7 @@
                     </h4>
 
                     {{ $event['body'] }}
+                    <p><a href="/show-event/{{ $event->id }}">Show</a></p>
 
                 </div>
             @endforeach
