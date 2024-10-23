@@ -12,7 +12,8 @@ class EventController extends Controller
             'title' => 'required',
             'body' => 'required',
             'start_date' => 'required',
-            'end_date' => 'required'
+            'end_date' => 'required',
+            'category' => 'required'
         ]);
 
         $incomingFields['title'] = strip_tags($incomingFields['title']);

@@ -13,7 +13,6 @@ class UserController extends Controller
         return redirect('/');
     }
 
-
     public function login(Request $request) {
 
         $incomingFields = $request->validate([
@@ -31,9 +30,9 @@ class UserController extends Controller
 
     public function register(Request $request) {
         $incomingFields = $request->validate([
-            'name' => ['required', 'min:1', 'max:10'],
-            'email' => ['required', 'min:1', 'max:10'],
-            'password' => ['required', 'min:1', 'max:10']
+            'name' => ['required', 'min:3', 'max:10'],
+            'email' => ['required', 'min:3', 'max:20'],
+            'password' => ['required', 'min:3', 'max:10']
         ]);
 
         $incomingFields['password'] = bcrypt($incomingFields['password']);
@@ -43,5 +42,15 @@ class UserController extends Controller
         return redirect('/');
     }
 
-   
+    public function change_password(Request $request) {
+
+        $incomingFields = $request->validate([
+            'new_password' => ['required', 'min:3', 'max:10']
+        ]);
+       
+        User::where('id',  auth()->id())->update(['password'=> bcrypt($incomingFields['new_password'])]);
+        auth()->logout();
+
+        return redirect('/');
+    }
 }
