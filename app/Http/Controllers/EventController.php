@@ -55,7 +55,8 @@ class EventController extends Controller
 
         $incomingFields = $request->validate([
             'title'=> 'required',
-            'body'=> 'required'
+            'body'=> 'required',
+            'category'=> 'required'
         ]);
 
         $incomingFields['title'] = strip_tags($incomingFields['title']);
