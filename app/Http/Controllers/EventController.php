@@ -27,36 +27,20 @@ class EventController extends Controller
 
     public function showEventController(Event $event)
     {
-
-       
-        // if (auth()->user()->id !== $event['user_id']) {
-        //     return redirect('/');
-        // }
-
-        return view('edit-event', ['event' => $event]);
+        return view('edit-event', ['event' => $event, 'categories' => Event::$categories]);
     }
 
     public function showEvent(Event $event)
     {
-
-       
-        // if (auth()->user()->id !== $event['user_id']) {
-        //     return redirect('/');
-        // }
-
         return view('show-event', ['event' => $event]);
     }
 
     public function updateEvent(Event $event, Request $request)
     {
-        // if (auth()->user()->id !== $event['user_id']) {
-        //     return redirect('/');
-        // }
-
         $incomingFields = $request->validate([
-            'title'=> 'required',
-            'body'=> 'required',
-            'category'=> 'required'
+            'title' => 'required',
+            'body' => 'required',
+            'category' => 'required'
         ]);
 
         $incomingFields['title'] = strip_tags($incomingFields['title']);
@@ -68,11 +52,7 @@ class EventController extends Controller
 
     public function deleteEvent(Event $event)
     {
-        // if (auth()->user()->id !== $event['user_id']) {
-        //     return redirect('/');
-        // }
-
-        $event ->delete();
+        $event->delete();
         return redirect('/');
     }
 }

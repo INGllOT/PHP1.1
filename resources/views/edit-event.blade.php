@@ -23,7 +23,14 @@
                 <label for="body">Body</label>
                 <textarea name="body" class="form-control" id="body" rows="5" required>{{ $event->body }}</textarea>
             </div>
-            
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select name="category" class="form-control">
+                    @foreach ($categories as $category)
+                        <option value="{{ $category }}">{{ $category }}</option>
+                    @endforeach
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>
     @else
