@@ -1,5 +1,3 @@
-<html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -93,17 +91,14 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
-                        </div>
-                        
-                        
-    
+                        </div>               
                     </div>
                 </div>
             @endforeach
         </div>
     </div>
     
-    @else
+    @else 
         <div class="row">
             <div class="col-md-6">
                 <div class="card mb-4">
@@ -145,6 +140,9 @@
             </div>
         </div>
 
+        <div>
+            <a href="/print-view" class="btn btn-info" style="margin-bottom: 10px;">Go to print view</a>
+        </div>
 
         <div class="card">
             <div class="card-body">
@@ -153,7 +151,7 @@
                     <div class="card mb-3"
                         style="background-color: 
                         {{ $event['category'] === 'History' ? 'lightblue' : ($event['category'] === 'Science' ? 'lightgreen' : ($event['category'] === 'Sport' ? 'lightcoral' : 'gray')) }};">
-                        <div class="card-body">
+                        <div class="card-body, .no-print" >
                             <h3 class="card-title">Title: {{ $event['title'] }}</h3>
                             <h4 class="card-subtitle mb-2 text-muted">Category: {{ $event['category'] }}</h4>
                             <h5 class="card-text"><small>{{ $event['start_date'] }} - {{ $event['end_date'] }}</small>
@@ -167,10 +165,6 @@
         </div>
 
     @endauth
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 

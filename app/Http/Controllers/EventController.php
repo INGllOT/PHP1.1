@@ -30,9 +30,9 @@ class EventController extends Controller
         return view('edit-event', ['event' => $event, 'categories' => Event::$categories]);
     }
 
-    public function showEvent(Event $event)
+    public function printView(Request $request)
     {
-        return view('show-event', ['event' => $event]);
+        return view('show-event', ['events' => Event::all()]);
     }
 
     public function updateEvent(Event $event, Request $request)
