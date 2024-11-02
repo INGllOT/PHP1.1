@@ -35,6 +35,11 @@ class EventController extends Controller
         return view('show-event', ['events' => Event::all()]);
     }
 
+    public function showEvent(Event $event)
+    {
+        return view('show-event', ['event' => $event]);
+    }
+
     public function updateEvent(Event $event, Request $request)
     {
         $incomingFields = $request->validate([
