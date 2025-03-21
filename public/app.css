@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.timeline {
+    position: relative;
+    margin: 50px 0;
+    padding: 0;
+    list-style: none;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin: 20px 0;
+}
+
+.timeline-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.timeline-content {
+    background-color: #f4f4f4;
+    padding: 15px 20px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.timeline-title {
+    margin: 0 0 10px;
+}
+
+.timeline-category {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.timeline-date {
+    font-size: 0.8em;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.timeline-body {
+    margin-bottom: 15px;
+}
+
+.timeline-actions a,
+.timeline-actions button {
+    margin-right: 10px;
+    font-size: 0.9em;
+}

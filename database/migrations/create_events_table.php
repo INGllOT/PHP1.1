@@ -13,13 +13,20 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('title');
+            $table->string('description');
+            $table->string('place');
+            $table->decimal('ticket_price', 8, 2);
+            $table->integer('ticket_quantity');
+            $table->dateTime('event_date');
+            $table->dateTime('ticket_start_date');
+            $table->dateTime('ticket_end_date');
             $table->string('category');
-            $table->longText('body');
-            $table->date('start_date');
-            $table->date('end_date');
             $table->foreignId('user_id')->constrained();
+
+            $table->timestamps();
+
+           // $table->foreignId('user_id')->constrained();
         });
     }
 

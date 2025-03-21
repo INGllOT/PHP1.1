@@ -16,7 +16,7 @@
             <h3 class="card-title">Title: {{ $event['title'] }}</h3>
             <h5 class="card-subtitle mb-2 text-muted">Category: {{ $event['category'] }}</h5>
             <h6 class="card-text">
-                <small>{{ $event['start_date'] }} - {{ $event['end_date'] }}</small>
+                <small>{{ $event['event_date'] }} - {{ $event['end_date'] }}</small>
             </h6>
             <p class="card-text">{{ $event['body'] }}</p>
         </div>

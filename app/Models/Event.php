@@ -8,13 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['title', 'body', 'user_id', 'start_date', 'end_date', 'category'];
-
-    public static array $categories = [
-        'History',
-        'Science',
-        'Sport'
-    ];
-
+  
+    protected $fillable = ['title', 'description', 'place', 'ticket_price', 'ticket_quantity', 'event_date', 'ticket_start_date', 'ticket_end_date', 'category', 'user_id'];
+    
 }
+ 

@@ -38,7 +38,7 @@
             <div class="card-body, .no-print">
                 <h3 class="card-title">Title: {{ $event['title'] }}</h3>
                 <h4 class="card-subtitle mb-2 text-muted">Category: {{ $event['category'] }}</h4>
-                <h5 class="card-text"><small>{{ $event['start_date'] }} - {{ $event['end_date'] }}</small>
+                <h5 class="card-text"><small>{{ $event['event_date'] }} - {{ $event['end_date'] }}</small>
                 </h5>
                 <p class="card-text">{{ $event['body'] }}</p>
             </div>

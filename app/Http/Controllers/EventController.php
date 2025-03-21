@@ -3,24 +3,30 @@
 namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log; // Import the Log facade
 
 class EventController extends Controller
 {
     public function createEvent(Request $request)
     {
-        $incomingFields = $request->validate([
-            'title' => 'required',
-            'body' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'category' => 'required'
-        ]);
 
-        $incomingFields['title'] = strip_tags($incomingFields['title']);
-        $incomingFields['body'] = strip_tags($incomingFields['body']);
-        $incomingFields['user_id'] = auth()->id();
+        // $incomingFields = $request->validate([
+        //     'title' => 'required'
+        //     // 'description' => 'required'
+        //     // 'place' => 'required'
+        //     // 'ticket_price' => 'required',
+        //     // 'ticket_quantity' => 'required',
+        //     // 'ticket_start_date' => 'required',
+        //     // 'ticket_end_date' => 'required',
+        //     // 'event_date' => 'required',
+        //     // 'category' => 'required'
+        // ]);
 
-        Event::create($incomingFields);
+      //  $incomingFields['description'] = strip_tags($incomingFields['description']);
+      //  $incomingFields['user_id'] = auth()->id();
+      
+        $request['user_id'] = auth()->id();
+        Event::create($request->all());
 
         return redirect('/');
     }
