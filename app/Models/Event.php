@@ -11,5 +11,11 @@ class Event extends Model
   
     protected $fillable = ['title', 'description', 'place', 'ticket_price', 'ticket_quantity', 'event_date', 'ticket_start_date', 'ticket_end_date', 'category', 'user_id'];
     
+    public function users()
+    {
+        return $this->belongsToMany(User::class)
+                    ->withPivot('ticket_quantity')
+                    ->withTimestamps();
+    }
 }
  

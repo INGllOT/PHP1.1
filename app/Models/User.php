@@ -12,6 +12,13 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    public function events()
+    {
+        return $this->belongsToMany(Event::class)
+                    ->withPivot('ticket_quantity') // Dodatkowe pole w tabeli pośredniej
+                    ->withTimestamps(); // Automatyczne aktualizowanie czasu
+    }
+    
     /**
      * The attributes that are mass assignable.
      *

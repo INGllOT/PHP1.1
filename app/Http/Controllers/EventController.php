@@ -10,21 +10,7 @@ class EventController extends Controller
     public function createEvent(Request $request)
     {
 
-        // $incomingFields = $request->validate([
-        //     'title' => 'required'
-        //     // 'description' => 'required'
-        //     // 'place' => 'required'
-        //     // 'ticket_price' => 'required',
-        //     // 'ticket_quantity' => 'required',
-        //     // 'ticket_start_date' => 'required',
-        //     // 'ticket_end_date' => 'required',
-        //     // 'event_date' => 'required',
-        //     // 'category' => 'required'
-        // ]);
 
-      //  $incomingFields['description'] = strip_tags($incomingFields['description']);
-      //  $incomingFields['user_id'] = auth()->id();
-      
         $request['user_id'] = auth()->id();
         Event::create($request->all());
 

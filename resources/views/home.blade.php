@@ -30,9 +30,9 @@
                 <button type="submit" class="btn btn-danger mb-3">Logout</button>
             </form>
         </div>
-
-
         <div class="row">
+
+            @if(auth()->user()->role === 'admin')
             <div class="col-md-6">
                 <div class="card mb-4">
                     <div class="card-body">
@@ -41,38 +41,35 @@
                             @csrf
                             <div class="form-group">
                                 <label for="title">Title</label>
-                                <input name="title" type="text" class="form-control" placeholder="Event title">
+                                <input name="title" type="text" class="form-control" placeholder="Event title" value="Default">
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea name="description" type="text" class="form-control" placeholder="Description"></textarea>
+                                <input name="description" type="text" class="form-control" placeholder="Description" value="Default"></input>
                             </div>
-
-
                             <div class="form-group">
                                 <label for="place">Event place</label>
-                                <input name="place" class="form-control" placeholder="Event place"></input>
+                                <input name="place" class="form-control" placeholder="Event place" value="Default"></input>
                             </div>
                             <div class="form-group">
                                 <label for="ticket_price">Ticket price</label>
-                                <input name="ticket_price" class="form-control" placeholder="Ticket price"></input>
+                                <input name="ticket_price" class="form-control" placeholder="Ticket price" value=1></input>
                             </div>
                             <div class="form-group">
                                 <label for="ticket_quantity">Ticket quantity</label>
-                                <input name="ticket_quantity" class="form-control" placeholder="Ticket quantity"></input>
+                                <input name="ticket_quantity" class="form-control" placeholder="Ticket quantity" value=1></input>
                             </div>
                             <div class="form-group">
                                 <label for="event_date">Event date</label>
-                                <input name="event_date" type="date" class="form-control">
+                                <input name="event_date" type="date" class="form-control" value="2021-01-01">
                             </div>
-
                             <div class="form-group">
                                 <label for="ticket_start_date">Ticket sale start</label>
-                                <input name="ticket_start_date" type="date" class="form-control">
+                                <input name="ticket_start_date" type="date" class="form-control" value="2021-01-01">
                             </div>
                             <div class="form-group">
                                 <label for="ticket_end_date">Ticket sale end</label>
-                                <input name="ticket_end_date" type="date" class="form-control">
+                                <input name="ticket_end_date" type="date" class="form-control" value="2021-01-01">
                             </div>
                             <div class="form-group">
                                 <label for="category">Category</label>
@@ -87,7 +84,9 @@
                     </div>
                 </div>
             </div>
+            @endif
 
+            @if(auth()->user()->role === 'admin')
             <div class="col-md-6">
                 <div class="card mb-4">
                     <div class="card-body">
@@ -101,7 +100,6 @@
                            
                             <button type="submit" class="btn btn-success">Save</button>
                         </form>
-
 
                         @foreach ($categories as $category)
                         <form action="/delete-category/{{ $category -> id }}" method="POST">
@@ -117,38 +115,67 @@
                     </div>
                 </div>
             </div>
+            @endif
+
         </div>
-
-
-
     </div>
     
-
     <div class="timeline">
-        @foreach ($events as $event)
-            <div class="timeline-item">
-                <div class="timeline-icon"
-                    style="background-color: 
-                        {{ $event['category'] === 'History' ? 'lightblue' : ($event['category'] === 'Science' ? 'lightgreen' : ($event['category'] === 'Sport' ? 'lightcoral' : 'gray')) }};">
-                </div>
-                <div class="timeline-content">
-                    <h3 class="timeline-title">Title: {{ $event['title'] }}</h3>
-                    <h4 class="timeline-category">Category: {{ $event['category'] }}</h4>
-                    <h5 class="timeline-date">{{ $event['event_date'] }} - {{ $event['end_date'] }}</h5>
-                    <p class="timeline-body">{{ $event['body'] }}</p>
-                    <div class="timeline-actions">
-                        <a href="/edit-event/{{ $event->id }}" class="btn btn-warning">Edit</a>
-                        <a href="/show-event/{{ $event->id }}" class="btn btn-info">Show</a>
-                        <form action="/delete-event/{{ $event->id }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </div>
+    @foreach ($events as $event)
+        <div class="timeline-item">
+            <div class="timeline-icon"
+                style="background-color: 
+                    {{ $event['category'] === 'History' ? 'lightblue' : ($event['category'] === 'Science' ? 'lightgreen' : ($event['category'] === 'Sport' ? 'lightcoral' : 'gray')) }};">
+            </div>
+            <div class="timeline-content">
+                <h3 class="timeline-title">Title: {{ $event['title'] }}</h3>
+                <h4 class="timeline-category">Category: {{ $event['category'] }}</h4>
+                
+                <!-- Dodanie daty wydarzenia -->
+                <h3 class="timeline-date">
+                    Event date: {{ \Carbon\Carbon::parse($event['event_date'])->format('Y-m-d') }}
+                </h3>
+
+                <!-- Dodanie dat sprzedaży biletów -->
+                <h6 class="timeline-ticket-date">
+                    Tickets sale:
+                     {{ \Carbon\Carbon::parse($event['ticket_start_date'])->format('Y-m-d') }} -
+                     {{ \Carbon\Carbon::parse($event['ticket_end_date'])->format('Y-m-d') }}
+                </h6>
+
+                <!-- Dodanie liczby dostępnych biletów -->
+                <p class="timeline-body">{{ $event['body'] }}</p>
+                <p class="timeline-tickets">
+                    Available tickets: {{ $event['ticket_quantity'] }}
+                </p>
+
+                <!-- Dodanie ceny biletu -->
+                <p class="timeline-price">
+                    Ticket price: {{ number_format($event['ticket_price'], 2) }} zł
+                </p>
+
+                <div class="timeline-actions">
+
+                    <a href="/show-event/{{ $event->id }}" class="btn btn-info">Show</a>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#buyTicketModal">Buy</button>
+
+                    @if(auth()->user()->role === 'admin')
+                    <a href="/edit-event/{{ $event->id }}" class="btn btn-warning">Edit</a>                    
+                    <form action="/delete-event/{{ $event->id }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    @endif
+
                 </div>
             </div>
-        @endforeach
-    </div>
+        </div>
+    @endforeach
+</div>
+
+    
+
     
     @else 
         <div class="row">
@@ -192,11 +219,6 @@
             </div>
         </div>
 
-        <div>
-            <a href="/print-view" class="btn btn-info" style="margin-bottom: 10px;">Go to print view</a>
-        </div>
-
-        
     <div class="timeline">
         @foreach ($events as $event)
             <div class="timeline-item">
@@ -211,14 +233,19 @@
                     <p class="timeline-body">{{ $event['body'] }}</p>
                     <div class="timeline-actions">
                         <a href="/show-event/{{ $event->id }}" class="btn btn-info">Show</a>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#buyTicketModal">Buy</button>
                     </div>
                 </div>
             </div>
         @endforeach
     </div>
-
     @endauth
 
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
+
+<x-buy-ticket-modal :event="$event ?? new \App\Models\Event" />
 
 </html>
