@@ -13,6 +13,11 @@ class UserEvent extends Model
         'name',
         'email',
         'ticket_quantity',
+        'event_name',
+        'event_description',
+        'event_place',
+        'ticket_price',
+        'event_date'
     ];
 
 }

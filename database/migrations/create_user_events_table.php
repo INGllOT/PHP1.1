@@ -19,6 +19,12 @@ return new class extends Migration
                 $table->string('email');
                 $table->integer(column: 'ticket_quantity');
                 $table->timestamps(); 
+
+                $table->string('event_name');
+                $table->string('event_description');
+                $table->string('event_place');
+                $table->decimal('ticket_price', 8, 2);
+                $table->dateTime('event_date');
             });
     }
 

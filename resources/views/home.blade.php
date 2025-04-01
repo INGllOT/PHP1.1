@@ -84,6 +84,7 @@
                     </div>
                 </div>
             </div>
+
             @endif
 
             @if(auth()->user()->role === 'admin')
@@ -119,6 +120,8 @@
 
         </div>
     </div>
+    <a href="/user-tickets" class="btn btn-info">Show my tickets</a>
+
     
     <div class="timeline">
     @foreach ($events as $event)
@@ -157,7 +160,7 @@
                 <div class="timeline-actions">
 
                     <a href="/show-event/{{ $event->id }}" class="btn btn-info">Show</a>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#buyTicketModal">Buy</button>
+                    <a href="/buy-ticket/{{ $event->id }}" class="btn btn-success">Buy</a>
 
                     @if(auth()->user()->role === 'admin')
                     <a href="/edit-event/{{ $event->id }}" class="btn btn-warning">Edit</a>                    
@@ -173,9 +176,6 @@
         </div>
     @endforeach
 </div>
-
-    
-
     
     @else 
         <div class="row">
@@ -233,7 +233,7 @@
                     <p class="timeline-body">{{ $event['body'] }}</p>
                     <div class="timeline-actions">
                         <a href="/show-event/{{ $event->id }}" class="btn btn-info">Show</a>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#buyTicketModal">Buy</button>
+                        <a href="/buy-ticket/{{ $event->id }}" class="btn btn-success">Buy</a>
                     </div>
                 </div>
             </div>
@@ -245,7 +245,4 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
-
-<x-buy-ticket-modal :event="$event ?? new \App\Models\Event" />
-
 </html>

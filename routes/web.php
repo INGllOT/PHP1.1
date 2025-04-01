@@ -20,18 +20,16 @@ Route::get('/', function () {
 Route::post('/register', [UserController::class, 'register'])->name('register');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 Route::post('/login', [UserController::class, 'login'])->name('login');
+Route::get('/buy-ticket/{event}', [UserEventController::class, 'buyTicketView'])->name('buy.ticket');
 Route::post('/buy-ticket', [UserEventController::class, 'buyTicket']);
 
+Route::get('/user-tickets', [UserEventController::class, 'userTickets'])->name('user.tickets')->middleware('auth');
 
 
 Route::put('/change-password', [UserController::class, 'change_password']);
 Route::post('/create-event', [EventController::class, 'createEvent']);
 Route::get('/edit-event/{event}', [EventController::class, 'showEventController']);
 Route::get('/show-event/{event}', [EventController::class, 'showEvent']);
-// Route::get('/print-view', function () {
-//     $events = Event::orderBy('event_date', 'asc')->get();
-//     return view('print', ['events' => $events]);
-// });
 
 Route::put('/edit-event/{event}', [EventController::class, 'updateEvent']);
 Route::delete('/delete-event/{event}', [EventController::class, 'deleteEvent']);
