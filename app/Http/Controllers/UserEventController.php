@@ -24,12 +24,11 @@ class UserEventController extends Controller
     public function buyTicket(Request $request)
     {
         // Walidacja danych wejściowych
-        // $request->validate([
-        //     'event_id' => 'required|exists:events,id',
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|email|max:255',
-        //     'ticket_quantity' => 'required|integer|min:1',
-        // ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'ticket_quantity' => 'required|integer|min:1',
+        ]);
 
         // Pobranie wydarzenia
         $event = Event::find($request->event_id);
@@ -37,7 +36,7 @@ class UserEventController extends Controller
             return redirect()->back()->with('error', 'Event not found.');
         }
 
-        // Check if there are enough tickets
+        // CZy wystarczająca ilość biletów
         if ($event->ticket_quantity < $request->ticket_quantity) {
             return redirect()->back()->with('error', 'Not enough tickets available.');
         }

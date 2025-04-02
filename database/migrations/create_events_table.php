@@ -23,10 +23,8 @@ return new class extends Migration
             $table->dateTime('ticket_end_date');
             $table->string('category');
             $table->integer('user_id');
-
+            $table->string('color');
             $table->timestamps();
-
-           // $table->foreignId('user_id')->constrained();
         });
 
     }

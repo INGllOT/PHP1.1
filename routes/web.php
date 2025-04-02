@@ -9,11 +9,8 @@ use App\Models\Event;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    // $events = Event::orderBy('event_date', 'asc')->get();
     $events = Event::get();
-
     $categories = Category::get();
-
     return view('home', ['events' => $events, 'categories' => $categories]);
 });
 

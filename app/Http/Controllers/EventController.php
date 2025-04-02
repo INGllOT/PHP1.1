@@ -11,8 +11,14 @@ class EventController extends Controller
     public function createEvent(Request $request)
     {
 
-
+        $request->validate([
+            'sale_date' => 'required|date',
+            'event_date' => 'required|date|after:sale_date',
+        ]);
+        
         $request['user_id'] = auth()->id();
+        $request['color'] = '#'.substr(md5(rand()), 0, 6);
+
         Event::create($request->all());
 
         return redirect('/');
