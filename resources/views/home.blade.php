@@ -15,7 +15,7 @@
     <div class="container">
 
         <div class="col-md-6">
-            <p class="alert alert-success">Logged in !!!</p>
+            <p class="alert alert-success">Witaj, {{ auth()->user()->name }}!</p>
             <form action="/change-password" method="POST" class="mb-4">
                 @csrf
                 @method('PUT')
@@ -32,7 +32,7 @@
         </div>
         <div class="row">
 
-            @if(auth()->user()->role === 'admin')
+            @if(auth()->check() && auth()->user()->role === 'admin')
             <div class="col-md-6">
                 <div class="card mb-4">
                     <div class="card-body">
@@ -87,7 +87,7 @@
 
             @endif
 
-            @if(auth()->user()->role === 'admin')
+            @if(auth()->check() && auth()->user()->role === 'admin')
             <div class="col-md-6">
                 <div class="card mb-4">
                     <div class="card-body">
@@ -148,9 +148,7 @@
 
                 <!-- Dodanie liczby dostępnych biletów -->
                 <p class="timeline-body">{{ $event['body'] }}</p>
-                <p class="timeline-tickets">
-                    Available tickets: {{ $event['ticket_quantity'] }}
-                </p>
+                <p id="ticket_quantity" data-event-id="{{ $event->id }}" class="timeline-tickets">  Available tickets: {{ $event['ticket_quantity'] }}</p>
 
                 <!-- Dodanie ceny biletu -->
                 <p class="timeline-price">
@@ -162,7 +160,7 @@
                     <a href="/show-event/{{ $event->id }}" class="btn btn-info">Show</a>
                     <a href="/buy-ticket/{{ $event->id }}" class="btn btn-success">Buy</a>
 
-                    @if(auth()->user()->role === 'admin')
+                    @if(auth()->check() && auth()->user()->role === 'admin')
                     <a href="/edit-event/{{ $event->id }}" class="btn btn-warning">Edit</a>                    
                     <form action="/delete-event/{{ $event->id }}" method="POST" class="d-inline">
                         @csrf
@@ -228,9 +226,25 @@
                 </div>
                 <div class="timeline-content">
                     <h3 class="timeline-title">Title: {{ $event['title'] }}</h3>
-                    <h4 class="timeline-category">Category: {{ $event['category'] }}</h4>
-                    <h5 class="timeline-date">{{ $event['event_date'] }} - {{ $event['end_date'] }}</h5>
-                    <p class="timeline-body">{{ $event['body'] }}</p>
+                <h4 class="timeline-category">Category: {{ $event['category'] }}</h4>
+                
+                <!-- Dodanie daty wydarzenia -->
+                <h3 class="timeline-date">
+                    Event date: {{ \Carbon\Carbon::parse($event['event_date'])->format('Y-m-d') }}
+                </h3>
+
+                <!-- Dodanie dat sprzedaży biletów -->
+                <h6 class="timeline-ticket-date">
+                    Tickets sale:
+                     {{ \Carbon\Carbon::parse($event['ticket_start_date'])->format('Y-m-d') }} -
+                     {{ \Carbon\Carbon::parse($event['ticket_end_date'])->format('Y-m-d') }}
+                </h6>
+
+                <!-- Dodanie liczby dostępnych biletów -->
+                <p class="timeline-body">{{ $event['body'] }}</p>
+                <p id="ticket_quantity" data-event-id="{{ $event->id }}" class="timeline-tickets">  Available tickets: {{ $event['ticket_quantity'] }}</p>
+                <!-- Dodanie ceny biletu -->
+                <p class="timeline-price">  Ticket price: {{ number_format($event['ticket_price'], 2) }} zł </p>
                     <div class="timeline-actions">
                         <a href="/show-event/{{ $event->id }}" class="btn btn-info">Show</a>
                         <a href="/buy-ticket/{{ $event->id }}" class="btn btn-success">Buy</a>
@@ -244,5 +258,29 @@
     
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        function updateTicketQuantities() {
+            $('.timeline-tickets').each(function() {  // Dla każdego elementu z klasą .timeline-tickets
+                var eventId = $(this).data('event-id'); // Pobranie ID eventu
+                var ticketElement = $(this); // Zapisz referencję do aktualnego elementu
+                
+                $.ajax({
+                    url: '/get-ticket-quantity/' + eventId,
+                    type: 'GET',
+                    success: function(response) {
+                        ticketElement.text('Available tickets: ' + response.ticket_quantity);
+                    },
+                    error: function(error) {
+                        console.error("Błąd podczas pobierania liczby biletów", error);
+                    }
+                });
+            });
+        }
+    
+        // Uruchamianie co 5 sekund (można zmienić na inną wartość)
+        setInterval(updateTicketQuantities, 5000);
+    </script>
+    
 </body>
 </html>

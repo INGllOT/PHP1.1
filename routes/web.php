@@ -29,10 +29,17 @@ Route::get('/user-tickets', [UserEventController::class, 'userTickets'])->name('
 Route::put('/change-password', [UserController::class, 'change_password']);
 Route::post('/create-event', [EventController::class, 'createEvent']);
 Route::get('/edit-event/{event}', [EventController::class, 'showEventController']);
+Route::put('/edit-event/{event}', action: [EventController::class, 'updateEvent']);
+
 Route::get('/show-event/{event}', [EventController::class, 'showEvent']);
 
-Route::put('/edit-event/{event}', [EventController::class, 'updateEvent']);
 Route::delete('/delete-event/{event}', [EventController::class, 'deleteEvent']);
 
 Route::post('/save-category', action: [CategoryController::class, 'createCategory']);
 Route::delete('/delete-category/{category}', action: [CategoryController::class, 'deleteCategory']);
+
+
+Route::get('/get-ticket-quantity/{eventId}', function ($eventId) {
+    $event = Event::findOrFail($eventId);
+    return response()->json(['ticket_quantity' => $event->ticket_quantity]);
+});
